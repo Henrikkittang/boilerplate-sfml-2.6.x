@@ -1,13 +1,10 @@
 
 
-LIB := C:/SFML-2.6.x/SFML-2.6.x-build-clang/lib
-SFML_GRAPHICS := $(LIB)/libsfml-graphics-s.a \
-				 $(LIB)/libsfml-window-s.a \
-				 $(LIB)/libsfml-system-s.a \
+SFML_GRAPHICS := -l sfml-graphics-s \
+				 -l sfml-window-s \
+				 -l sfml-system-s \
 				 -l opengl32 -l winmm -l gdi32 \
-				 C:/SFML-2.6.x/windows/libfreetype.a
-
-INCLUDE := C:/SFML-2.6.x/SFML-2.6.x/include
+				 -l freetype
 
 DEBUG_PATH   = build/debug/main
 RELEASE_PATH = build/release/main
@@ -32,10 +29,10 @@ all-debug: build-debug run-debug
 
 compile-debug:
 	@echo ">>> Compiling debug..."
-	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -D $(STATIC) -I $(INCLUDE) -c $(SOURCE) -o $(DEBUG_PATH).o 
+	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -D $(STATIC) -I include -c $(SOURCE) -o $(DEBUG_PATH).o 
 link-debug:
 	@echo ">>> Linking debug..."
-	${CC} ${CPPFLAGS} $(DEBUG_FLAGS)  $(DEBUG_PATH).o -o $(DEBUG_PATH).exe -L -lpthread $(SFML_GRAPHICS) 
+	${CC} ${CPPFLAGS} $(DEBUG_FLAGS)  $(DEBUG_PATH).o -o $(DEBUG_PATH).exe -L lib $(SFML_GRAPHICS) -lpthread
 run-debug:
 	@echo ">>> Running debug..."
 	$(DEBUG_PATH).exe
@@ -46,11 +43,11 @@ clean-debug:
 	rm -f build/debug/*.o build/debug/*.exe
 
 assembly-debug:
-	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -S -I $(INCLUDE) -c $(SOURCE) -o main_debug.s
+	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -S -I include -c $(SOURCE) -o main_debug.s
 
 profile-debug:
 	@echo ">>> Compiling debug..."
-	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -pg -I $(INCLUDE) -c $(SOURCE) -o $(DEBUG_PATH).o  
+	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -pg -I include -c $(SOURCE) -o $(DEBUG_PATH).o  
 	
 	@echo ">>> Linking debug..."
 	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -pg $(DEBUG_PATH).o -o $(DEBUG_PATH).exe -L -lpthread  $(SFML_GRAPHICS)
@@ -70,11 +67,11 @@ build-release: compile-release link-release
 all-release: build-release run-release
 
 assembly-release:
-	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC)  -I $(INCLUDE) -c $(SOURCE) -o main_release.s
+	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC)  -I include -c $(SOURCE) -o main_release.s
 
 compile-release:
 	@echo ">>> Compiling release..."
-	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC) -I $(INCLUDE) -c $(SOURCE) -o $(RELEASE_PATH).o 
+	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC) -I include -c $(SOURCE) -o $(RELEASE_PATH).o 
 link-release:
 	@echo ">>> Linking release..."
 	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) $(RELEASE_PATH).o -o $(RELEASE_PATH).exe -L -lpthread  $(SFML_GRAPHICS)
@@ -88,7 +85,7 @@ clean-release:
 
 profile-release:
 	@echo ">>> Compiling release..."
-	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC) -pg -I $(INCLUDE) -c $(SOURCE) -o $(RELEASE_PATH).o
+	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC) -pg -I include -c $(SOURCE) -o $(RELEASE_PATH).o
 	
 	@echo ">>> Linking release..."
 	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -pg $(RELEASE_PATH).o -o $(RELEASE_PATH).exe -L -lpthread  $(SFML_GRAPHICS)

@@ -91,7 +91,8 @@
     "files.exclude": {
         "Makefile": true,
         "build/": true,
+        "include": true,
+        "lib": true,
     },
 
-    
 }

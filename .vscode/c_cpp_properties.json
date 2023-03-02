@@ -3,7 +3,7 @@
         {
             "name": "Windows",
             "includePath": [
-                "C:/SFML-2.6.x/SFML-2.6.x/include/"
+                "include/"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
