@@ -1,11 +1,11 @@
 
 
-SFML_GRAPHICS := -l sfml-graphics-s \
-				 -l sfml-window-s \
-				 -l sfml-system-s \
+LIB := C:/SFML-2.6.X/SFML-2.6.x-build-clang/lib
+SFML_GRAPHICS := $(LIB)/libsfml-graphics-s.a \
+				 $(LIB)/libsfml-window-s.a \
+				 $(LIB)/libsfml-system-s.a \
 				 -l opengl32 -l winmm -l gdi32 \
 				 -l freetype
-
 
 DEBUG_PATH   = build/debug/main
 RELEASE_PATH = build/release/main
@@ -16,9 +16,9 @@ CC        = clang++
 CPPFLAGS  = -std=c++17 -femulated-tls  -pthread
 STATIC    = SFML_STATIC
 
-DEBUG_FLAGS   = -g
-# RELEASE_FLAGS = -Ofast -ftree-vectorize -march=native -finline-functions 
-RELEASE_FLAGS = -O3
+DEBUG_FLAGS   = -O3
+RELEASE_FLAGS = -Ofast -ftree-vectorize -march=native -finline-functions 
+# RELEASE_FLAGS = -O3
 
 
 # //////////////////////////////////
