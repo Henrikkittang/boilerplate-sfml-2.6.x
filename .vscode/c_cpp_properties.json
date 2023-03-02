@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "Windows",
+            "includePath": [
+                "C:/SFML-2.6.x/SFML-2.6.x/include/"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            
+            "compilerPath": "C:/mingw64/bin/clang++.exe"
+        }
+    ],
+    "version": 4
+}
