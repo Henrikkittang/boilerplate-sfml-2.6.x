@@ -19,8 +19,8 @@ CPPFLAGS  = -std=c++17 -femulated-tls  -pthread
 STATIC    = SFML_STATIC
 
 DEBUG_FLAGS   = -g
-RELEASE_FLAGS = -O3
-# RELEASE_FLAGS = -Ofast -ftree-vectorize -march=native -finline-functions 
+# RELEASE_FLAGS = -O3
+RELEASE_FLAGS = -Ofast -ftree-vectorize -march=native -finline-functions 
 
 
 # //////////////////////////////////
