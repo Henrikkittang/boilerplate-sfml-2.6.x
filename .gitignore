@@ -1,2 +1,4 @@
 *.exe
 *.o
+analysis.txt
+gmon.out
