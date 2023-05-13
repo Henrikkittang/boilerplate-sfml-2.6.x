@@ -1,6 +1,6 @@
 
 
-LIB := C:/SFML-2.6.X/SFML-2.6.x-build-clang/lib
+LIB := C:/SFML-2.6.X/SFML-2.6.x-build-gnu/lib
 SFML_GRAPHICS := $(LIB)/libsfml-graphics-s.a \
 				 $(LIB)/libsfml-window-s.a \
 				 $(LIB)/libsfml-system-s.a \
@@ -15,12 +15,12 @@ SOURCE 	     = src/main.cpp
 
 # Flags for all modes
 CC        = g++
-# CPPFLAGS  = -std=c++17 -femulated-tls  -pthread
-CPPFLAGS  = -std=c++17 -pthread
+# CPPFLAGS  = -std=gnu++17 -stdlib=libstdc++ -femulated-tls  -pthread 
+CPPFLAGS  = -std=c++17 
 STATIC    = SFML_STATIC
 
 DEBUG_FLAGS   = -g
-RELEASE_FLAGS = -O3
+RELEASE_FLAGS = -O3 
 # RELEASE_FLAGS = -Ofast -ftree-vectorize -march=native -finline-functions 
 
 
@@ -36,7 +36,7 @@ compile-debug:
 	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -D $(STATIC) -I $(INCLUDE) -c $(SOURCE) -o $(DEBUG_PATH).o 
 link-debug:
 	@echo ">>> Linking debug..."
-	${CC} ${CPPFLAGS} $(DEBUG_FLAGS)  $(DEBUG_PATH).o -o $(DEBUG_PATH).exe -L lib $(SFML_GRAPHICS)
+	${CC} ${CPPFLAGS} $(DEBUG_FLAGS)  $(DEBUG_PATH).o -o $(DEBUG_PATH).exe -L lib $(SFML_GRAPHICS) -lpthread
 run-debug:
 	@echo ">>> Running debug..."
 	$(DEBUG_PATH).exe
@@ -51,14 +51,13 @@ assembly-debug:
 
 profile-debug:
 	@echo ">>> Compiling debug..."
-	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -pg -I $(INCLUDE) -c $(SOURCE) -o $(DEBUG_PATH).o  
+	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -I $(INCLUDE) -c $(SOURCE) -o $(DEBUG_PATH).o  -pg -no-pie
 	
 	@echo ">>> Linking debug..."
-	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) -pg $(DEBUG_PATH).o -o $(DEBUG_PATH).exe -L $(SFML_GRAPHICS)
+	${CC} ${CPPFLAGS} $(DEBUG_FLAGS) $(DEBUG_PATH).o -o $(DEBUG_PATH).exe -L -lpthread $(SFML_GRAPHICS) -pg -no-pie
 
 	@echo ">>> Profiling debug..."
 	$(DEBUG_PATH).exe 
-
 	gprof $(DEBUG_PATH).exe gmon.out > analysis.txt   
 
 
@@ -75,10 +74,10 @@ assembly-release:
 
 compile-release:
 	@echo ">>> Compiling release..."
-	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC) -I $(INCLUDE) -c $(SOURCE) -o $(RELEASE_PATH).o 
+	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC) -I $(INCLUDE) -c $(SOURCE) -o $(RELEASE_PATH).o  
 link-release:
 	@echo ">>> Linking release..."
-	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) $(RELEASE_PATH).o -o $(RELEASE_PATH).exe -L $(SFML_GRAPHICS)
+	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) $(RELEASE_PATH).o -o $(RELEASE_PATH).exe -L -lpthread  $(SFML_GRAPHICS) 
 run-release:
 	@echo ">>> Running release..."
 	$(RELEASE_PATH).exe
@@ -89,15 +88,13 @@ clean-release:
 
 profile-release:
 	@echo ">>> Compiling release..."
-	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC) -pg -I $(INCLUDE) -c $(SOURCE) -o $(RELEASE_PATH).o -pg
+	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -D $(STATIC) -I $(INCLUDE) -c $(SOURCE) -o $(RELEASE_PATH).o -pg  -no-pie
 	
 	@echo ">>> Linking release..."
-	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) -pg $(RELEASE_PATH).o -o $(RELEASE_PATH).exe -L $(SFML_GRAPHICS) -pg
+	${CC} ${CPPFLAGS} $(RELEASE_FLAGS) $(RELEASE_PATH).o -o $(RELEASE_PATH).exe -L -lpthread $(SFML_GRAPHICS) -pg  -no-pie
 	
-	@echo ">>> Profiling debug..."
-	$(RELEASE_PATH).exe 
-
 	@echo ">>> Profiling release..."
+	$(RELEASE_PATH).exe 
 	gprof $(RELEASE_PATH).exe gmon.out > analysis.txt
 	
 
