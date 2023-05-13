@@ -54,6 +54,17 @@
             },
         },
         {
+            "label": "Track Segmentation fault",
+            "type": "shell",
+            "command": "gdb",
+            "dependsOn": ["Build & Run: Debug"],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true,
+            },
+        },
+        {
             "label": "Build: Release",
             "type": "shell",
             "command": "mingw32-make build-release",
